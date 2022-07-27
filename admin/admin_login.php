@@ -1,31 +1,42 @@
-<?php
-  if (isset($_POST['login'])) {
-    $manager = preg_replace('#[^A-Za-z0-9]#i', '', $_POST["empId"]);
-  
-    include"../scripts/connect_to_mysql.php";
-    $sql = mysqli_query($con, "select id from admin where username='$manager'  limit 1");
+<?php session_start();
+ include"../scripts/connect_to_mysql.php";
 
-    $existCount = mysqli_num_rows($sql);
-    if ($existCount==1) {
-      while ($row = mysqli_fetch_array($sql)) 
-      { 
-        $id = $row[$id]; 
+
+  if($_SESSION['status'] == 'invalid' || empty($_SESSION['status'])) {
+  /* Set default invalid */ 
+
+  $_SESSION['status'] = 'invalid';
+}
+ 
+ if ($_SESSION['status'] == 'valid') {
+   echo "<script>window.location.href = '../user/user_login.php' </script>";
+ }
+ 
+ if (isset($_POST['login'])) {
+    $manager = trim($_POST["uname"]);
+    $password = trim($_POST["password"]);
+
+    if (empty($manager) || empty($password)) {
+      echo "Please fill up all the fields.";
+    }
+      else {
+        $queryValidate = "SELECT *  FROM admin WHERE username = '$manager' AND password = '$password'";
+        $sqlValidate = mysqli_query($con, $queryValidate);
+
+        if (mysqli_num_rows($sqlValidate) > 0) {
+          $_SESSION['status'] = 'valid';
+
+          echo "<script>window.location.href = '../user/user_login.php' </script>";
+        }
+        else {
+          $_SESSION['status'] = 'invalid';
+
+          echo 'Invalid Credentials';
+        }
       }
-      
-      $_SESSION["id"]=$id;
-      $_SESSION["manager"]=$manager;
-
-      header("location:../index.php");    
-      exit();
     }
-
-    else{
-      echo 'The username or password is incorrect. Please try again. <br> <a href="admin_login.php"> Click Here </a>';
-      exit();
-    }
-  }
-
 ?>
+
 
 <html>
 <head>
