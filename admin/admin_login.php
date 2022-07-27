@@ -38,28 +38,19 @@
 
     <div id="pageContent">
     
-      <h2> Sign in to start your session </h2>
+    <h2> ADMIN LOGIN </h2>
+      <h3> Sign in to start your session </h3>
       <br> <br>
 
       <form id="form1" name="loginForm" method="post" action="../admin/admin_login.php">
 
-      <h3> DATE </h3>
-      <h4> TIME </h4>
-  <br> 
-      <h3> Enter Employee ID</h3>
-
-      <input type="text" id="empId" name="empId" required> <br> <br>
+      <input type="text" id="uname" name="uname" required placeholder="Username"> <br> <br>
       
-      <select id="opt" name="opt">
-        <option value="Time In"> Time In</option>
-        <option value="Time Out">Time Out</option>
-    </select>
+      <input type="password" id="password" name="password" placeholder="Password">
   <br> 
     <input name="login" type="button" value="Sign In" class="btnSignIn">
     
     <br>
-    <input type="hidden">
-
   
   </form>
   <br>
